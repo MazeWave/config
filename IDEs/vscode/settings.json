@@ -1,0 +1,59 @@
+{
+    "editor.fontLigatures": true,
+    "editor.fontFamily": "Jetbrains Mono, Monocraft",
+    "editor.tabCompletion": "onlySnippets",
+    "glsllint.glslifyAutoOpenOnError": false,
+    "explorer.confirmDelete": false,
+    "editor.inlineSuggest.enabled": true,
+    "errorLens.excludeBySource": [
+        "C/C++(1696)"
+    ],
+    "42header.username": "ldalmass",
+    "42header.email": "marvin@42.fr",
+    "security.allowedUNCHosts": [
+        "wsl.localhost"
+    ],
+    "files.autoSave": "onFocusChange",
+    "workbench.colorTheme": "Bearded Theme Monokai Black",
+    "github.copilot.enable": {
+		"*": true,
+		"plaintext": false,
+		"markdown": false,
+		"scminput": false,
+		"c": false,
+		"rust": false,
+		"cpp": false,
+		"mcfunction": false,
+		"glsl": false
+	},
+    "editor.indentSize": "tabSize",
+    "editor.insertSpaces": false,
+	"editor.detectIndentation": false,
+	"editor.mouseWheelZoom": true,
+	"git.autofetch": true,
+	"git.enableSmartCommit": true,
+	"git.confirmSync": false,
+	"security.workspace.trust.untrustedFiles": "open",
+	"explorer.confirmDragAndDrop": false,
+	"editor.suggest.preview": true,
+	"files.associations": {
+		"*.fsh": "hlsl"
+	},
+	"workbench.preferredDarkColorTheme": "Bearded Theme Monokai Black",
+	"workbench.preferredLightColorTheme": "Bearded Theme Vivid Light",
+	"workbench.colorCustomizations": {
+
+	},
+	"editor.unicodeHighlight.nonBasicASCII": false,
+	"github.copilot.editor.enableAutoCompletions": true,
+	"geode.geodeCliPath": "C:\\Users\\Loulou\\scoop\\shims\\geode.exe",
+	"geode.geodeSdkPath": "C:\\Users\\Loulou\\Documents\\Geode",
+	"cmake.showOptionsMovedNotification": false,
+	"zenMode.hideLineNumbers": false,
+	"window.commandCenter": false,
+	"git.openRepositoryInParentFolders": "never",
+	"cmake.pinnedCommands": [
+		"workbench.action.tasks.configureTaskRunner",
+		"workbench.action.tasks.runTask"
+	],
+}

@@ -1,0 +1,35 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+    {
+        "key": "ctrl+alt+h",
+        "command": "42header.insertHeader",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+alt+h",
+        "command": "-42header.insertHeader",
+        "when": "editorTextFocus"
+	},
+	{
+		"key": "alt+q",
+		"command": "workbench.action.toggleLightDarkThemes"
+	},
+	{
+		"key": "ctrl+shift+z",
+		"command": "workbench.action.toggleZenMode",
+		"when": "!isAuxiliaryWindowFocusedContext"
+	},
+	{
+		"key": "ctrl+k z",
+		"command": "-workbench.action.toggleZenMode",
+		"when": "!isAuxiliaryWindowFocusedContext"
+	},
+	{
+		"key": "ctrl+y",
+		"command": "redo"
+	},
+	{
+		"key": "ctrl+shift+z",
+		"command": "-redo"
+	}
+]
