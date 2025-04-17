@@ -5,36 +5,6 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
-
-  # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
-
-  boot.initrd.luks.devices."luks-1c59633e-40c2-4b41-834d-da9e5dc9e6f0".device = "/dev/disk/by-uuid/1c59633e-40c2-4b41-834d-da9e5dc9e6f0";
-  # Setup keyfile
-  boot.initrd.secrets = {
-    "/boot/crypto_keyfile.bin" = null;
-  };
-
-  boot.loader.grub.enableCryptodisk = true;
-
-  boot.initrd.luks.devices."luks-8d4a04ac-27b3-477c-8859-6fcd7fd7e6b4".keyFile = "/boot/crypto_keyfile.bin";
-  boot.initrd.luks.devices."luks-1c59633e-40c2-4b41-834d-da9e5dc9e6f0".keyFile = "/boot/crypto_keyfile.bin";
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-
   # Set your time zone.
   time.timeZone = "Europe/Paris";
 
@@ -80,40 +50,32 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.maze = {
+  users.users.ldalmass = {
     isNormalUser = true;
-    description = "maze";
+    description = "ldalmass";
     extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.zsh;
     packages = with pkgs; [
 	vlc
-	steam
+#	steam
 	discord
 	tidal-dl
 	tidal-hifi
 	jellyfin
-	modrinth-app
+#	modrinth-app
 #	minecraft
 	bitwarden-desktop
 	transmission_3
-	obs-studio
-	obsidian
+#	obs-studio
+#	obsidian
 	localsend
 	scrcpy
 	audacity
-	blender
-	heroic
+#	blender
+#	heroic
 
 	# Code IDEs
 	vscode
@@ -123,24 +85,18 @@
 #	idea-community
 #	pycharm-community
 	# Video editing
-	davinci-resolve
+#	davinci-resolve
 	avidemux
     ];
   };
 
   # Enable automatic login for the user.
   services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "maze";
+  services.xserver.displayManager.autoLogin.user = "ldalmass";
 
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
   systemd.services."getty@tty1".enable = false;
   systemd.services."autovt@tty1".enable = false;
-
-  # Install firefox.
-  programs.firefox.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -150,6 +106,8 @@
 	wget
 	curl
 	android-tools
+  oh-my-zsh
+
 
 #	nvidia-x11
 #	nvidia-settings
@@ -167,7 +125,7 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -182,5 +140,61 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
+
+programs = {
+   zsh = {
+      enable = true;
+      autosuggestions.enable = true;
+      zsh-autoenv.enable = true;
+      syntaxHighlighting.enable = true;
+      shellAliases = {
+          m = "make";
+          mr = "make re";
+          mf = "make fclean";
+          mc = "make clean";
+          movie = "ssh -o StrictHostKeyChecking=no watch.ascii.theater";
+          nrs = "sudo nixos-rebuild switch";
+      };
+      ohMyZsh = {
+         enable = true;
+         theme = "jonathan";
+         plugins = [
+           "git"
+           "history"
+           "rust"
+         ];
+      };
+   };
+};
+
+programs.firefox = {
+  enable = true;
+  policies = {
+    RestoreOnStartup = 1;
+    DisableTelemetry = true;
+    SearchEngines = {
+      Default = "Startpage";
+      PreventInstalls = true;
+    };
+
+    Homepage = {
+      StartPage = "https://startpage.com";
+      URL = "https://startpage.com";
+    };
+    SearchBar = "unified"; # or "separate"
+    Extensions = {
+      Install = [
+        "https://addons.mozilla.org/firefox/downloads/file/4146722/ublock_origin-latest.xpi"
+        "https://addons.mozilla.org/firefox/downloads/file/4465727/sponsorblock-latest.xpi"
+        "https://addons.mozilla.org/firefox/downloads/file/4451438/styl_us-latest.xpi"
+        "https://addons.mozilla.org/firefox/downloads/file/4439735/darkreader-latest.xpi"
+        "https://addons.mozilla.org/firefox/downloads/file/4371820/return_youtube_dislikes-latest.xpi"
+        "https://addons.mozilla.org/firefox/downloads/file/4467426/bitwarden_password_manager-latest.xpi"
+      ];
+    };
+  };
+};
+
+
 
 }
