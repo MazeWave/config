@@ -5,6 +5,8 @@
 { config, pkgs, ... }:
 
 {
+  imports = [ "/home/ldalmass/config/nixos/unstable-pkgs.nix" ];
+
   # Set your time zone.
   time.timeZone = "Europe/Paris";
 
@@ -29,6 +31,10 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+
+  # Hyprland
+  programs.hyprland.enable = true;
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -76,6 +82,10 @@
 	audacity
 #	blender
 #	heroic
+  gnumake
+  tree
+  bat
+  kitty
 
 	# Code IDEs
 	vscode
@@ -91,8 +101,8 @@
   };
 
   # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "ldalmass";
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "ldalmass";
 
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
   systemd.services."getty@tty1".enable = false;
@@ -107,7 +117,9 @@
 	curl
 	android-tools
   oh-my-zsh
-
+  # Other WM
+  # hyprland
+  # wlroots
 
 #	nvidia-x11
 #	nvidia-settings
@@ -154,6 +166,7 @@ programs = {
           mc = "make clean";
           movie = "ssh -o StrictHostKeyChecking=no watch.ascii.theater";
           nrs = "sudo nixos-rebuild switch";
+          nxclean = "sudo nix-env --delete-generations +2 --profile /nix/var/nix/profiles/system; sudo nix-collect-garbage -d;";
       };
       ohMyZsh = {
          enable = true;
@@ -195,6 +208,11 @@ programs.firefox = {
   };
 };
 
+  # Enable Hyprland
+  # services.xserver.windowManager.hyprland.enable = true;
 
+  # Enable LightDM display manager
+  # services.xserver.displayManager.lightdm.enable = true;
+  # services.xserver.displayManager.defaultSession = "gnome";  # Set default session as GNOME
 
 }
