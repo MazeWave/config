@@ -29,39 +29,44 @@
     LC_TIME = "fr_FR.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
   # Hyprland
-  programs.hyprland.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
-
-  # Configure keymap in X11
-  services.xserver.xkb =
-  {
-    layout = "us";
-    variant = "intl";
-  };
 
   # Configure console keymap
   console.keyMap = "us-acentos";
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
-  services.pipewire =
+
+  # SERVICES
+  services =
   {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
+    # Enable sound with pipewire.
+    pipewire =
+    {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
+
+    # Configure keymap in X11
+    xserver.xkb =
+    {
+      layout = "us";
+      variant = "intl";
+    };
+
+    # Enable CUPS to print documents.
+    printing.enable = true;
+
+    # Enable the X11 windowing system.
+    xserver.enable = true;
+
+    # Enable the GNOME Desktop Environment.
+    xserver.displayManager.gdm.enable = true;
+    xserver.desktopManager.gnome.enable = true;
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -73,38 +78,54 @@
     shell = pkgs.zsh;
     packages = with pkgs;
     [
+      # MEDIA
       vlc
+      localsend
+      jellyfin
+      tidal-hifi
       #	steam
       discord
-      tidal-dl
-      tidal-hifi
-      jellyfin
-      #	modrinth-app
-      #	minecraft
       bitwarden-desktop
       transmission_3
+      #	modrinth-app
+      #	minecraft
       #	obs-studio
       #	obsidian
-      localsend
-      scrcpy
-      audacity
       #	blender
-      #	heroic
-      gnumake
-      tree
-      bat
-      kitty
 
-      # Code IDEs
+      # CODE IDEs
       vscode
       #	clion
       #	rider
       #	rust-rover
       #	idea-community
       #	pycharm-community
-      # Video editing
+
+      # CREATION
       #	davinci-resolve
+      audacity
       avidemux
+
+      # SHELL
+      scrcpy
+      ffmpeg
+      tidal-dl
+      gnumake
+      tree
+      bat
+
+      # HYPRLAND DE
+      hyprlang
+      # hyprgraphics
+      # hyprland-qtutils
+      hyprpaper
+      hyprpicker
+      hypridle
+      hyprlock
+      hyprpolkitagent
+      # hyprsysteminfo
+      xdg-desktop-portal-hyprland
+      kitty
     ];
   };
 
@@ -225,6 +246,10 @@
           ];
         };
       };
+    };
+    hyprland =
+    { 
+      enable = true;
     };
   };
 
