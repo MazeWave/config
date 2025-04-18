@@ -5,7 +5,10 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ "/home/ldalmass/config/nixos/unstable-pkgs.nix" ];
+  imports =
+  [ 
+    "/home/ldalmass/config/nixos/unstable-pkgs.nix"
+  ];
 
   # Set your time zone.
   time.timeZone = "Europe/Paris";
@@ -13,7 +16,8 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  i18n.extraLocaleSettings = {
+  i18n.extraLocaleSettings =
+  {
     LC_ADDRESS = "fr_FR.UTF-8";
     LC_IDENTIFICATION = "fr_FR.UTF-8";
     LC_MEASUREMENT = "fr_FR.UTF-8";
@@ -37,7 +41,8 @@
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # Configure keymap in X11
-  services.xserver.xkb = {
+  services.xserver.xkb =
+  {
     layout = "us";
     variant = "intl";
   };
@@ -51,7 +56,8 @@
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
-  services.pipewire = {
+  services.pipewire =
+  {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
@@ -59,44 +65,46 @@
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.ldalmass = {
+  users.users.ldalmass =
+  {
     isNormalUser = true;
     description = "ldalmass";
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
-    packages = with pkgs; [
-	vlc
-#	steam
-	discord
-	tidal-dl
-	tidal-hifi
-	jellyfin
-#	modrinth-app
-#	minecraft
-	bitwarden-desktop
-	transmission_3
-#	obs-studio
-#	obsidian
-	localsend
-	scrcpy
-	audacity
-#	blender
-#	heroic
-  gnumake
-  tree
-  bat
-  kitty
+    packages = with pkgs;
+    [
+      vlc
+      #	steam
+      discord
+      tidal-dl
+      tidal-hifi
+      jellyfin
+      #	modrinth-app
+      #	minecraft
+      bitwarden-desktop
+      transmission_3
+      #	obs-studio
+      #	obsidian
+      localsend
+      scrcpy
+      audacity
+      #	blender
+      #	heroic
+      gnumake
+      tree
+      bat
+      kitty
 
-	# Code IDEs
-	vscode
-#	clion
-#	rider
-#	rust-rover
-#	idea-community
-#	pycharm-community
-	# Video editing
-#	davinci-resolve
-	avidemux
+      # Code IDEs
+      vscode
+      #	clion
+      #	rider
+      #	rust-rover
+      #	idea-community
+      #	pycharm-community
+      # Video editing
+      #	davinci-resolve
+      avidemux
     ];
   };
 
@@ -110,20 +118,21 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-	git
-	vim
-	wget
-	curl
-	android-tools
-  oh-my-zsh
-  # Other WM
-  # hyprland
-  # wlroots
+  environment.systemPackages = with pkgs;
+  [
+    git
+    vim
+    wget
+    curl
+    android-tools
+    oh-my-zsh
+    # Other WM
+    # hyprland
+    # wlroots
 
-#	nvidia-x11
-#	nvidia-settings
-#	nvidia-persistenced
+    #	nvidia-x11
+    #	nvidia-settings
+    #	nvidia-persistenced
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -137,7 +146,7 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -153,13 +162,16 @@ services.openssh.enable = true;
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
 
-programs = {
-   zsh = {
+  programs =
+  {
+    zsh =
+    {
       enable = true;
       autosuggestions.enable = true;
       zsh-autoenv.enable = true;
       syntaxHighlighting.enable = true;
-      shellAliases = {
+      shellAliases =
+      {
           m = "make";
           mr = "make re";
           mf = "make fclean";
@@ -167,46 +179,55 @@ programs = {
           movie = "ssh -o StrictHostKeyChecking=no watch.ascii.theater";
           nrs = "sudo nixos-rebuild switch";
           nxclean = "sudo nix-env --delete-generations +2 --profile /nix/var/nix/profiles/system; sudo nix-collect-garbage -d;";
+          cat = "bat";
       };
-      ohMyZsh = {
-         enable = true;
-         theme = "jonathan";
-         plugins = [
-           "git"
-           "history"
-           "rust"
-         ];
+      ohMyZsh =
+      {
+          enable = true;
+          theme = "jonathan";
+          plugins =
+          [
+            "git"
+            "history"
+            "rust"
+          ];
       };
-   };
-};
-
-programs.firefox = {
-  enable = true;
-  policies = {
-    RestoreOnStartup = 1;
-    DisableTelemetry = true;
-    SearchEngines = {
-      Default = "Startpage";
-      PreventInstalls = true;
     };
+    firefox =
+    {
+      enable = true;
+      policies =
+      {
+        RestoreOnStartup = 1;
+        DisableTelemetry = true;
+        SearchEngines =
+        {
+          Default = "Startpage";
+          PreventInstalls = true;
+        };
 
-    Homepage = {
-      StartPage = "https://startpage.com";
-      URL = "https://startpage.com";
-    };
-    SearchBar = "unified"; # or "separate"
-    Extensions = {
-      Install = [
-        "https://addons.mozilla.org/firefox/downloads/file/4146722/ublock_origin-latest.xpi"
-        "https://addons.mozilla.org/firefox/downloads/file/4465727/sponsorblock-latest.xpi"
-        "https://addons.mozilla.org/firefox/downloads/file/4451438/styl_us-latest.xpi"
-        "https://addons.mozilla.org/firefox/downloads/file/4439735/darkreader-latest.xpi"
-        "https://addons.mozilla.org/firefox/downloads/file/4371820/return_youtube_dislikes-latest.xpi"
-        "https://addons.mozilla.org/firefox/downloads/file/4467426/bitwarden_password_manager-latest.xpi"
-      ];
+        Homepage =
+        {
+          StartPage = "https://startpage.com";
+          URL = "https://startpage.com";
+        };
+        SearchBar = "unified"; # or "separate"
+        Extensions =
+        {
+          Install =
+          [
+            "https://addons.mozilla.org/firefox/downloads/file/4458450/ublock_origin-latest.xpi"
+            "https://addons.mozilla.org/firefox/downloads/file/4465727/sponsorblock-latest.xpi"
+            "https://addons.mozilla.org/firefox/downloads/file/4451438/styl_us-latest.xpi"
+            "https://addons.mozilla.org/firefox/downloads/file/4439735/darkreader-latest.xpi"
+            "https://addons.mozilla.org/firefox/downloads/file/4371820/return_youtube_dislikes-latest.xpi"
+            "https://addons.mozilla.org/firefox/downloads/file/4467426/bitwarden_password_manager-latest.xpi"
+          ];
+        };
+      };
     };
   };
-};
+
 
   # Enable Hyprland
   # services.xserver.windowManager.hyprland.enable = true;
@@ -214,5 +235,4 @@ programs.firefox = {
   # Enable LightDM display manager
   # services.xserver.displayManager.lightdm.enable = true;
   # services.xserver.displayManager.defaultSession = "gnome";  # Set default session as GNOME
-
 }
